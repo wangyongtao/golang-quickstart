@@ -172,7 +172,44 @@ $ go env GOPATH
 $ go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
+关于 GOPATH： 
+
+The `GOPATH` environment variable specifies the location of your workspace. 
+
+It defaults to a directory named `go`inside your home directory, so `$HOME/go` on Unix, `$home/go` on Plan 9, and `%USERPROFILE%\go` (usually `C:\Users\YourName\go`) on Windows.
+
+
+```sh
+$ tree -L 3 ~/go 
+/Users/wangtom/go
+├── bin
+│   ├── go-outline
+│   ├── goimports
+│   └── gopls
+├── pkg
+│   ├── darwin_amd64
+│   │   └── github.com
+│   ├── mod
+│   │   ├── cache
+│   │   ├── github.com
+│   │   ├── golang.org
+│   │   ├── google.golang.org
+│   │   ├── gopkg.in
+│   │   └── honnef.co
+│   └── sumdb
+│       └── sum.golang.org
+└── src
+    └── github.com
+        └── go-sql-driver
+```
+
+
 ## 创建 go modules 模块: 
+
+我们知道 `go get` 获取的代码会放在 `$GOPATH/src` 下面，而`go build`会在`$GOROOT/src`和`$GOPATH/src`下面按照import path去搜索`package`。
+
+每个go.mod文件定义了一个module，而放置go.mod文件的目录被称为module root目录（通常对应一个repo的root目录，但不是必须的）。module root目录以及其子目录下的所有Go package均归属于该module，除了那些自身包含go.mod文件的子目录。
+
 
 大多数编程语言都会有包管理工具，像Node有`npm`，PHP有`composer`，Java有`Maven`和`Gradle`。 
 可是，Go语言一直缺乏一个官方的包管理(曾有一个`Dep`被称为官方试验品`official experiment`)。
