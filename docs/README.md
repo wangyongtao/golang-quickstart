@@ -11,6 +11,9 @@ Go的语法接近C语言，但对于变量的声明有所不同。 罗伯特·�
 ## Go 语言的版本发布历史
 
 ```sh
+go1.16 (released 2021/02/16)
+go1.15 (released 2020/08/11)
+go1.14 (released 2020/02/25)
 go1.13 (released 2019/09/03)
 go1.12 (released 2019/02/25)  
 go1.11 (released 2018/08/24)  
@@ -42,18 +45,18 @@ go1    (released 2012/03/28)
 ```sh
 (1) Microsoft Windows
 Windows 7 or later, Intel 64-bit processor
-go1.13.4.windows-amd64.msi (112MB)
+go1.16.windows-amd64.msi (119MB)
 
 (2) Apple macOS
-macOS 10.11 or later, Intel 64-bit processor
-go1.13.4.darwin-amd64.pkg (116MB)
+macOS 10.12 or later, Intel 64-bit processor
+go1.16.darwin-amd64.pkg (124MB)
 
 (3) Linux
 Linux 2.6.23 or later, Intel 64-bit processor
-go1.13.4.linux-amd64.tar.gz (114MB)
+go1.16.linux-amd64.tar.gz (123MB)
 
 (4) Source 
-go1.13.4.src.tar.gz (21MB)
+go1.16.src.tar.gz (20MB)
 ```
 
 查看go命令的路径:
@@ -67,10 +70,10 @@ $ which go
 
 ```sh
 $ go version  
-go version go1.13.4 darwin/amd64
+go version go1.16 darwin/amd64
 ```
 
-可以看到，目前安装的是 go1.13.4 版本。
+可以看到，目前安装的是 `go1.16` 版本。
 
 
 如果是 macOS 系统， 且已经安装了 `homebrew` 可以使用以下命令安装： 
@@ -82,8 +85,8 @@ $ brew install go
 通过 `brew` 命令，go 会被安装在 `/usr/local/Cellar/go/` 目录下: 
 
 ```sh
-$ /usr/local/Cellar/go/1.13.4/bin/go version  
-go version go1.13.4 darwin/amd64
+$ /usr/local/Cellar/go/1.15.8/bin/go version
+go version go1.15.8 darwin/amd64
 ```
 
 
@@ -135,23 +138,39 @@ Hello, World!
 GO111MODULE=""
 GOARCH="amd64"
 GOBIN=""
-GOCACHE="/Users/wangtom/Library/Caches/go-build"
-GOENV="/Users/wangtom/Library/Application Support/go/env"
+GOCACHE="/Users/wang/Library/Caches/go-build"
+GOENV="/Users/wang/Library/Application Support/go/env"
 GOEXE=""
 GOFLAGS=""
 GOHOSTARCH="amd64"
 GOHOSTOS="darwin"
+GOINSECURE=""
+GOMODCACHE="/Users/wang/go/pkg/mod"
 GONOPROXY=""
 GONOSUMDB=""
 GOOS="darwin"
-GOPATH="/Users/wangtom/go"
+GOPATH="/Users/wang/go"
 GOPRIVATE=""
 GOPROXY="https://goproxy.cn,direct"
-GOROOT="/usr/local/Cellar/go/1.13.4/libexec"
+GOROOT="/usr/local/go"
 GOSUMDB="sum.golang.org"
 GOTMPDIR=""
-GOTOOLDIR="/usr/local/Cellar/go/1.13.4/libexec/pkg/tool/darwin_amd64"
-...
+GOTOOLDIR="/usr/local/go/pkg/tool/darwin_amd64"
+GOVCS=""
+GOVERSION="go1.16"
+GCCGO="gccgo"
+AR="ar"
+CC="clang"
+CXX="clang++"
+CGO_ENABLED="1"
+GOMOD="/dev/null"
+CGO_CFLAGS="-g -O2"
+CGO_CPPFLAGS=""
+CGO_CXXFLAGS="-g -O2"
+CGO_FFLAGS="-g -O2"
+CGO_LDFLAGS="-g -O2"
+PKG_CONFIG="pkg-config"
+GOGCCFLAGS="-fPIC -arch x86_64 -m64 ..."
 ```
 
 使用 `go env 变量名` 可以查看单个的环境变量，比如查看 `GOPATH`： 
@@ -161,7 +180,6 @@ $ go env GOPATH
 /Users/wangtom/go
 ```
  
-
 *设置代理*
 
 [Goproxy China 代理](https://github.com/goproxy/goproxy.cn)
@@ -208,23 +226,26 @@ $ tree -L 3 ~/go
 
 我们知道 `go get` 获取的代码会放在 `$GOPATH/src` 下面，而`go build`会在`$GOROOT/src`和`$GOPATH/src`下面按照import path去搜索`package`。
 
-每个go.mod文件定义了一个module，而放置go.mod文件的目录被称为module root目录（通常对应一个repo的root目录，但不是必须的）。module root目录以及其子目录下的所有Go package均归属于该module，除了那些自身包含go.mod文件的子目录。
+每个 go.mod 文件定义了一个 module ，而放置 go.mod 文件的目录被称为 module root 目录（通常对应一个 repo 的 root 目录，但不是必须的）。
+module root 目录以及其子目录下的所有 Go package 均归属于该 module，除了那些自身包含 go.mod 文件的子目录。
 
 
-大多数编程语言都会有包管理工具，像Node有`npm`，PHP有`composer`，Java有`Maven`和`Gradle`。 
-可是，Go语言一直缺乏一个官方的包管理(曾有一个`Dep`被称为官方试验品`official experiment`)。
-终于，在`go1.11` 版本中，新增了`module`管理模块功能，用来管理依赖包。
+大多数编程语言都会有包管理工具，像 Node 有`npm`，PHP 有`composer`，Java 有`Maven`和`Gradle`。 
+可是，Go 语言一直缺乏一个官方的包管理(曾有一个`Dep`被称为官方试验品`official experiment`)。
+终于，在`go1.11` 版本中，新增了`module`管理模块功能，用来管理依赖包。需要将`GO111MODULE`设置为`on`。自 go1.16 起默认 `GO111MODULE=on`。
 
 ```sh
 $ go mod init github.com/cnwyt/go-quick-start
 go: creating new go.mod: module github.com/cnwyt/go-quick-start
+go: to add module requirements and sums:
+    go mod tidy
 ```
 
 会生成一个 go.mod 文件，指明了模块名和 go 的版本: 
 
 ```sh
 module github.com/cnwyt/go-quick-start
-go 1.12
+go 1.16
 ```
 
 ## 引入一个第三方包 uniplaces/carbon: 
@@ -254,12 +275,12 @@ $ go mod: -require=github.com/uniplaces/carbon: need path@version
 ```sh
 module github.com/cnwyt/go-quick-start
 
-go 1.12
+go 1.16
 
-require github.com/uniplaces/carbon v0.1.6
+require github.com/uniplaces/carbon latest // indirect
 ```
 
-可以看到 多了一行 require 语句，指定第三方包的url路径和版本号。
+可以看到 多了一行 require 语句，指定第三方包的 url路径 和 版本号。
 
 在 main.go 中使用 import 来引入包: 
 
@@ -271,8 +292,8 @@ import "github.com/uniplaces/carbon"
 
 func main() {
     fmt.Println("Hello, World!");
-    fmt.Printf("Unix timestamp:  %d \n", time.Now().Unix())
-    fmt.Printf("Right now is:  %s \n", carbon.Now().DateTimeString())
+    fmt.Printf("时间戳 Unix timestamp:  %d \n", time.Now().Unix())
+    fmt.Printf("当前时间 Right now is:  %s \n", carbon.Now().DateTimeString())
 }
 ```
 
@@ -281,8 +302,8 @@ func main() {
 ```sh
 $ go run main.go 
 Hello, World!
-Unix timestamp:  1562766341 
-当前时间是:  2019-07-10 21:45:41
+时间戳 Unix timestamp:  1614132935 
+当前时间 Right now is:  2021-02-24 10:15:35
 ```
 
 ## 使用第三方包操作 MySQL 数据库 
@@ -299,11 +320,11 @@ $ go mod download
 ```java
 module github.com/cnwyt/go-quick-start
 
-go 1.12
+go 1.16
 
 require (
-	github.com/go-sql-driver/mysql latest
-	github.com/uniplaces/carbon v0.1.6
+    github.com/go-sql-driver/mysql v1.5.0
+    github.com/uniplaces/carbon v0.1.6 // indirect
 )
 ```
 
@@ -324,8 +345,8 @@ import (
 func main() {
     fmt.Println("Hello, World!");
 
-    fmt.Printf("Unix timestamp:  %d \n", time.Now().Unix())
-    fmt.Printf("Right now is:  %s \n", carbon.Now().DateTimeString())
+    fmt.Printf("时间戳 Unix timestamp:  %d \n", time.Now().Unix())
+    fmt.Printf("当前时间 Right now is:  %s \n", carbon.Now().DateTimeString())
 
     // 连接数据库
 	db, err := sql.Open("mysql", "homestead:secret@tcp(192.168.10.10:3306)/test")
@@ -349,8 +370,8 @@ func main() {
 ```sh
 $ go run main.go
 Hello, World!
-Unix timestamp:  1562766341 
-当前时间是:  2019-07-10 21:45:41
+时间戳 Unix timestamp:  1614157214 
+当前时间 Right now is:  2021-02-24 17:00:14 
 ----> 数据库连接成功.
 ```
 
