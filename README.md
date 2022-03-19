@@ -1,8 +1,4 @@
-*golang-quick-start*
-
-[golang学习笔记入门](docs/README.md)
-
-
+Golang 学习笔记
 
 ## 关于 go 语言
 
@@ -15,9 +11,14 @@ Go的语法接近C语言，但对于变量的声明有所不同。 罗伯特·�
 ## Go 语言的版本发布历史
 
 ```sh
+go1.18 (released 2022-03-15) 增加泛型 
+go1.17 (released 2021-08-16) 
+go1.16 (released 2021-02-16) 
+go1.15 (released 2020-08-11)
+go1.14 (released 2020-02-25)
 go1.13 (released 2019/09/03)
 go1.12 (released 2019/02/25)  
-go1.11 (released 2018/08/24)  
+go1.11 (released 2018/08/24) 新增 go mod 模块管理（Modules）  
 go1.10 (released 2018/02/16)  
 go1.9  (released 2017/08/24)  
 go1.8  (released 2017/02/16)  
@@ -46,28 +47,28 @@ go1    (released 2012/03/28)
 ```sh
 (1) Microsoft Windows
 Windows 7 or later, Intel 64-bit processor
-go1.13.4.windows-amd64.msi (112MB)
+go1.18.windows-amd64.msi (132MB)
 
 (2) Apple macOS
 macOS 10.11 or later, Intel 64-bit processor
-go1.13.4.darwin-amd64.pkg (116MB)
+go1.18.darwin-amd64.pkg (138MB)
 
 (3) Linux
 Linux 2.6.23 or later, Intel 64-bit processor
-go1.13.4.linux-amd64.tar.gz (114MB)
+go1.18.linux-amd64.tar.gz (135MB)
 
 (4) Source 
-go1.13.4.src.tar.gz (21MB)
+go1.18.src.tar.gz (22MB)
 ```
 
 如果安装好 go 语言后，可以使用 `go version` 查看当前版本
 
 ```sh
 $ go version  
-go version go1.13.4 darwin/amd64
+go version go1.18 darwin/amd64
 ```
 
-可以看到，目前安装的是 go1.13.4 版本。
+可以看到，目前安装的是 go1.18 版本。
 
 查看go命令的路径:
 
