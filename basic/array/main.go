@@ -4,12 +4,12 @@ import "fmt"
 
 // Arrays
 // The type [n]T is an array of n values of type T.
-// The expression : 
+// The expression :
 //    var a [10]int
 // declares a variable a as an array of ten integers.
 
 func main() {
-	
+
 	var a [2]string
 	a[0] = "Hello"
 	a[1] = "World"

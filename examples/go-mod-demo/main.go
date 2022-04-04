@@ -1,29 +1,16 @@
 package main
 
 import (
-	"log"
-	"os"
-	"time"
-
-	"github.com/joho/godotenv"
+	"fmt"
+	"go-mod-demo/util"
 )
 
 func main() {
+	fmt.Println("hello, golang dev docs!")
 
-	log.Println("Hello, World!")
+	// 测试调用 util 包
+	curr := util.UnixTime()
 
-	log.Printf("Unix timestamp:  %d \n", time.Now().Unix())
-
-	err := godotenv.Load()
-	if err != nil {
-
-		log.Fatal("Error loading .env file")
-	}
-
-	appName := os.Getenv("APP_NAME")
-	isDebug := os.Getenv("APP_DEBUG")
-
-	log.Println("APP_NAME: ", appName)
-	log.Println("APP_DEBUGL: ", isDebug)
-
+	fmt.Println("util time => ", curr)
+	fmt.Println("util datetime => ", util.UnixTime2DateTime(curr))
 }

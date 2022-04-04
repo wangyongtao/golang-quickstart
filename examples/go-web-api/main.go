@@ -2,11 +2,17 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"time"
+
+	handler "go-web-api/handler"
 )
+
+// 指定htpp端口号
+const httpPort string = ":8001"
 
 // User 用户结构体
 type User struct {
@@ -45,11 +51,23 @@ func UserListHanlder(w http.ResponseWriter, req *http.Request) {
 }
 
 // UserDetailHanlder : 用户详情
-func UserDetailHanlder(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "hello, world1!\n")
+func UserDetailHanlder(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("---> UserDetailHanlder hit")
+	// 解析form表单
+	err := r.ParseForm()
+	if err != nil {
+		log.Println("could not parse query: ", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	// 获取表单参数
+	name := r.FormValue("name")
+
+	io.WriteString(w, "UserDetailHanlder\n")
+	io.WriteString(w, name)
 }
 
-// IndexHanlder : 用户详情
+// IndexHanlder : 首页
 func IndexHanlder(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, `
 	<a href='/'>index</a> 
@@ -84,23 +102,28 @@ func hook(next http.Handler) http.Handler {
 
 	})
 }
+func init() {
+	log.Println("----- init -----")
+}
 
 func main() {
+	log.Println("----- main -----")
+
+	h := &handler.Handler{}
 	// http.HandleFunc("/", IndexHanlder)
 	// http.HandleFunc("/hello", HelloHanlder)
 	// http.HandleFunc("/user", UserListHanlder)
 	// http.HandleFunc("/user/:id", UserDetailHanlder)
 
-	http.Handle("/", hook(loggingHandler(http.HandlerFunc(IndexHanlder))))
+	// http.Handle("/", hook(loggingHandler(http.HandlerFunc(IndexHanlder))))
+	http.HandleFunc("/", h.IndexHandler)
 	http.HandleFunc("/hello", HelloHanlder)
 	http.HandleFunc("/user", UserListHanlder)
 	http.HandleFunc("/user/:id", UserDetailHanlder)
 
-	port := ":8082" // 监听端口号
-
-	err := http.ListenAndServe(port, nil)
+	err := http.ListenAndServe(httpPort, nil)
+	log.Println("ListenAndServe ok: 访问地址: http://localhost: " + httpPort)
 	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
+		log.Fatal("ListenAndServe err: ", err)
 	}
-	// log.Println("ListenAndServe: 访问地址: http://localhost: " + port)
 }

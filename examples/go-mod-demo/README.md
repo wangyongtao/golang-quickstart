@@ -1,26 +1,76 @@
-README.md
+## Tutorial: Create a Go module  
 
+Go语言的包依赖管理工具 go mod 使用
 
+see: https://go.dev/doc/tutorial/create-module
+
+## 本机环境
+
+```sh
+$ go version
+go version go1.18 darwin/amd64
 ```
+
+## 新创建一个目录
+
+```sh
 $ mkdir go-mod-demo 
 $ cd go-mod-demo
-
-$ ll
-total 16
--rw-r--r--  1 wangtom  staff     9B 12  2 11:09 README.md
--rw-r--r--  1 wangtom  staff   192B 12  2 11:08 main.go 
 ```
 
+## 使用 go mod init 创建 go 模块
 
+初始化 mod: 
+
+```sh
 $ go mod init go-mod-demo
 go: creating new go.mod: module go-mod-demo
 
+$ ls -l
+total 8
+-rw-r--r--  1 wangtom  staff  28  4  4 00:31 go.mod
 ```
+
+可以看到，创建了一个 go.mod 文件，其内容如下：
+
+```sh
 $ cat go.mod 
 module go-mod-demo
 
-go 1.13
+go 1.18
 ```
+
+创建 mian.go 文件，并写一些代码，输出一个字符串:
+
+```
+$ vi main.go
+```
+
+main.go: 
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    fmt.Println("hello, golang dev docs!")
+}
+```
+
+编译并执行代码 compile and run: 
+
+```sh
+$ go run main.go
+hello, golang dev docs!
+```
+
+输出正常。
+
+## 本地创建一个 package 并调用它
+
 
 
 go list -m输出的信息被称为build list，也就是构建当前module所要构建的所有相关package（及版本）的列表。
@@ -35,6 +85,9 @@ $ go list -m -json all
 	"GoVersion": "1.13"
 }
 ```
+
+## 调用第三方的 package 
+
 
 
 ```sh

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title> http server demo </title>
+</head>
+
+<body>
+	<h1> {{ .Title }} </h1>
+	<p> 
+		<a href='/'>首页 Index</a> 
+		| <a href='/about'>关于 About</a>
+	</p>
+	<p> welcome ! </p>
+	<br />
+	<h2>接口 api:</h2>
+	<p> 用户列表 /api/users: <a href='/api/users?limit=10'>users list </a> </p>
+	<p> 用户详情 /api/users/detail?id=1002: <a href='/api/users/detail?id=1002'>users detail (id=1002) </a> </p>
+	<p> 用户详情 /api/users/1001: <a href='/api/users/1001'>user detail (不支持path参数)</a> </p>
+ 
+</body>
+
+</html>
