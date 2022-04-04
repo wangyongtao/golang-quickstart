@@ -10,7 +10,13 @@ import (
 // Go语言对json的处理可以用系统自带的 encoding/json 包
 // 执行代码: go run json.go
 
-//定义一个简单的结构体 Person
+//定义一个简单的结构体 User
+
+// `json:"name"` 表示转成 json 会将结构体的 Name 转成指定的 name
+// 注意一个报错： json:name (=> 应该是 json:"name")
+// struct field tag `json:status` not compatible with reflect.StructTag.Get:
+// bad syntax for struct tag valuestructtag
+
 type User struct {
 	ID         int    `json:"id"`
 	Name       string `json:"name"`
